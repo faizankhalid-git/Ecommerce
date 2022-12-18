@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<head>
+
+    <link href="https://fonts.googleapis.com/css?family=Dosis:300|Lato:300,400,600,700|Roboto+Condensed:300,700|Open+Sans+Condensed:300,600|Open+Sans:400,300,600,700|Maven+Pro:400,700" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="97495474748-58m283q18ocemj4121h076nffk8rj7an.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: black;
+        }
+
+        body {
+            /*font-family: "Open Sans";*/
+            font-size: 16px;
+            color: White;
+            /*font-smoothing: antialiased;*/
+            font-weight: 600;
+        }
+
+        a {
+            color: #bbb;
+        }
+
+        .content:before {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+            display: block;
+            background-color: black;
+            background-image: url("https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
+            width: 100%;
+            height: auto;
+            background-size: cover;
+            filter: blur(0px);
+            -webkit-filter: blur(0px);
+        }
+
+        .content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 540px;
+            height: 540px;
+            background-color: rgba(10, 10, 10, 0.7);
+            margin: auto auto;
+            padding: 40px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            -moz-box-shadow: 0 0 10px black;
+            -webkit-box-shadow: 0 0 10px black;
+            box-shadow: 0 0 10px black;
+        }
+
+            .content .title {
+                text-align: center;
+                font-size: 2rem;
+                font-weight: 600;
+                padding-bottom: 30px;
+            }
+
+            .content input {
+                width: 100%;
+                font-size: 1.2rem;
+                font-family: "Open Sans";
+                margin: 10px 0px;
+                border: none;
+                padding: 10px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+            }
+
+                .content input[type="checkbox"] {
+                    display: none;
+                }
+
+            .content label {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                position: relative;
+                margin-left: 5px;
+                margin-right: 10px;
+                top: 5px;
+            }
+
+                .content label:before {
+                    content: "";
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    -moz-border-radius: 3px;
+                    -webkit-border-radius: 3px;
+                    border-radius: 3px;
+                    position: absolute;
+                    left: 0;
+                    bottom: 1px;
+                    background-color: #aaa;
+                    -moz-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+                    -webkit-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+                    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+                }
+
+            .content input[type="checkbox"]:checked + label:before {
+                content: "\2713";
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+                font-size: 20px;
+                color: Black;
+                text-align: center;
+                line-height: 20px;
+            }
+
+            .content span {
+                font-size: 0.9rem;
+            }
+
+            .content button {
+                width: 100%;
+                font-size: 1.1rem;
+                padding: 10px;
+                margin: 20px 0px;
+                background-color: #9c27b0;
+                color: White;
+                border: none;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+            }
+
+            .content .social {
+                width: 100%;
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+            }
+
+                .content .social span {
+                    display: inline-block;
+                    vertical-align: baseline;
+                    padding: 0 20px;
+                }
+
+                    .content .social span:before, .content .social span:after {
+                        content: "";
+                        display: block;
+                        width: 500px;
+                        position: absolute;
+                        top: 0.9em;
+                        border-top: 1px solid White;
+                    }
+
+                    .content .social span:before {
+                        right: 75%;
+                    }
+
+                    .content .social span:after {
+                        left: 75%;
+                    }
+
+            .content .buttons {
+                width: 100%;
+                margin: 30px 0px;
+            }
+
+                .content .buttons button {
+                    float: left;
+                    width: 30%;
+                    margin: 0px 1.5%;
+                }
+
+                    .content .buttons button i {
+                        padding-right: 7px;
+                    }
+
+                    .content .buttons button.facebook {
+                        background-color: #4464b2;
+                    }
+
+                    .content .buttons button.twitter {
+                        background-color: #28a9e0;
+                    }
+
+                    .content .buttons button.google {
+                        background-color: #da4735;
+                    }
+
+                .content .buttons:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+            .content .already {
+                text-align: center;
+                font-size: 0.9rem;
+            }
+    </style>
+    <!-- //font-awesome icons -->
+    <style type="text/css">
+        .abcRioButtonContentWrapper {
+            display: inline-block;
+            background: white;
+            color: #444;
+            width: 210px;
+            height:40px;
+            border-radius: 5px;
+            border: thin solid #888;
+            box-shadow: 1px 1px 1px grey;
+            white-space: nowrap;
+        }
+        .abcRioButton{
+            width:210px;
+        } 
+
+          
+    </style>
+</head>
+<body class="signup-body">
+    <div class="content">
+        <div class="title">Login to Your Account</div>
+        <input type="text" placeholder="E-mail" class="email" />
+        <input type="password" placeholder="Password" class="password" />
+        <input type="checkbox" id="rememberMe" />
+        <label for="rememberMe"></label><span>Remember me on this Computer</span>
+        <button class="done">Sign in</button>
+        <div class="social"> <span>or sign up with social media</span></div>
+        <div class="buttons">
+
+
+            <button class="facebook btn-block" style="width:450px;margin-bottom:10px"><i class="fa fa-facebook"></i><a href="~/Admin/Facebook" style="text-decoration:none;color:white">Facebook</a></button>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="width:450px;height:40px;margin-left:7px"></div><br /><br />
+        </div>
+        <div class="already">Already have an account? <a href="#">Sign In</a></div>
+    </div>
+</body>
+
+
+
+
+
+<script src="~/Content/js/vendor/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.done', function () {
+            var email = $('.email').val();
+            var password = $('.password').val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Registration/CheckValidUser?Email=" + email + "&Password=" + password,
+                success: function (response) {
+                    window.location.href = "Dashboard";
+                }
+            });
+        });
+    });
+</script>
+@*Login With Google*@
+@*<script>
+    function onSignIn(googleUser) {
+        window.location = "http://localhost:49752/Admin/Dashboard";
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        window.location = url;
+    }
+</script>*@
+
+
+<a href="#" onclick="signOut();">Sign out</a>
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+</script>

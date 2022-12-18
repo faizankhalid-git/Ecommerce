@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/WebsiteLayout.cshtml";
+}
+
+
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Create an Account</h1></div>
+        </div>
+    </div>
+    <!--End Page Title-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+                <div class="mb-4">
+                    <form method="post" action="#" id="CustomerLoginForm" accept-charset="UTF-8" class="contact-form">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="FirstName">Name</label>
+                                    <input type="text" name="name" placeholder="" id="username" autofocus="">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="LastName">Email</label>
+                                    <input type="email" name="email" placeholder="" id="email">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerEmail">Password</label>
+                                    <input type="password" name="password" placeholder="" id="password" class="" autocorrect="off" autocapitalize="off" autofocus="">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerPassword">Phone</label>
+                                    <input type="text" value="" name="phone" placeholder="" id="phone" class="">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="text" readonly class="btn mb-3" value="Create" id="submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--End Body Content-->
+@*Ajax Call*@
+<script src="~/Content/js/vendor/jquery-3.3.1.min.js"></script>
+<script>
+
+    $("#submit").click(function () {
+        var data = $("#CustomerLoginForm").serialize();
+        alert(data);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:55572/api/Home/CreateUser",
+            data: data,
+            success: function (response) {
+                alert("Data Added Successfully");
+                $("#SignupData")[0].reset();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "ProductImages";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+
+
+
+<div class="container" style="width:1100px;">
+    <br />
+    <br />
+
+    <div style="background-color:white">
+        <form method="post" enctype="multipart/form-data" action="MovProductImage" id="imageForm">
+            <div class="row">
+                <div class="offset-1 col-5 mt-2">
+                    <input type="file" name="image" class="imgName" />
+                </div>
+                <div class="offset-2 col-3">
+                    <input type="hidden" name="previousID" class="previousID"value="@Model" />
+                    <input type="submit" name="name" value="Upload Image" class="btn btn-primary icon submitImage" readonly />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="background-color:white;padding:5%">
+
+
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary" style="background-color:#4caf50">
+
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">Manage Categories</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <table class="table table-hover" id="Main_Cat"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function () {
+        LoadImages();
+        $(document).on('click', '.submitImage', function (e) {
+            e.preventDefault();
+            var a = $('.imgName').val();
+            var res = a.slice(12);
+            $.ajax({
+                url: "http://localhost:55572/api/Home//ProductImageUpload?Image=" + res +"&productID="+@Model,
+                method: "POST",
+                success: function (data) {
+                    alert("Image Added Successfully");
+                    LoadImages();
+                }
+            })
+        });
+        //oppo f7
+        $(document).on('click', '.del', function (e) {
+            e.preventDefault();
+            var cur = $(this).closest('tr');
+            var id = cur.find('td:eq(0)').html();
+                    $.ajax({
+                        url: "http://localhost:55572/api/Home//DelImage?id=" + id,
+                        method: "POST",
+                        success: function (data) {
+                            alert(data);
+                            LoadImages();
+                        }
+                    });
+                    
+        });
+        function LoadImages() {
+            $output = "<thead><tr><th>ID</th><th>Image</th><th>Delete</th>";
+            $.ajax({
+                url: "http://localhost:55572/api/Home/ViewProductImages?id="+@Model,
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $.each(data, function (key, item) {
+                        $output += "<tr style='width:100%'><td>" + item.ImageId + "</td><td><img style='height:60px' src='/DataBaseContent/ProductImages/" + item.Image+"' /></td><td><button class='btn btn-danger btn-link btn-sm del'><i class='material-icons'>close</i></td><</tr>";
+                    });
+                    $('#Main_Cat').html($output);
+                }
+            })
+        }
+    });
+
+</script>
+
+

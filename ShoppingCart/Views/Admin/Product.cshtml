@@ -1,0 +1,603 @@
+﻿
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<style type="text/css">
+    body {
+        background: #f2f2f2;
+    }
+
+    .selectdiv {
+        position: relative;
+        /*Don't really need this just for demo styling*/
+        float: left;
+        /*margin: 50px 33%;*/
+    }
+
+    /* IE11 hide native button (thanks Matt!) */
+    select::-ms-expand {
+        display: none;
+    }
+
+    .selectdiv:after {
+        content: '<>';
+        font: 17px "Consolas", monospace;
+        color: #333;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+        right: 11px;
+        /*Adjust for position however you want*/
+        top: 18px;
+        padding: 0 0 2px;
+        border-bottom: 1px solid #999;
+        /*left line */
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .selectdiv select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        /* Add some styling */
+        display: block;
+        width: 420px;
+        /*max-width: 420px;*/
+        height: 45px;
+        float: right;
+        margin: 5px 0px;
+        padding: 0px 24px;
+        font-size: 16px;
+        line-height: 1.75;
+        color: #333;
+        background-color: #ffffff;
+        background-image: none;
+        border: 1px solid #cccccc;
+        -ms-word-break: normal;
+        word-break: normal;
+    }
+</style>
+
+
+<!-- Modal For Add Category -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:white;">
+                    <div class="card-body" style="padding-bottom:0px">
+                        <form id="ProductData">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Product Name</label>
+                                        <input type="text" class="form-control name" name="Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Price</label>
+                                        <input type="number" class="form-control price" name="Price" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Quantity</label>
+                                        <input type="number" name="quantity" class="form-control qty" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Discount</label>
+                                        <input type="text" class="form-control disc" name="discount" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="selectdiv">
+                                            <label>
+                                                <select id="myTree1" name="CATEGORY_ID"></select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating" style="width: 420px;">* Please Enter a Little Description about your Product</label>
+                                        <textarea style="width: 420px;" name="message" rows="3" cols="30" class="desc"></textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="savePro">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:white;padding:5%">
+                    <form method="post" id="ProductData">
+                        <div>
+                            <label>Enter Product Name</label>
+                            <input type="text" name="category_name" id="category_name1" class="form-control">
+                            <label>Enter Product Price</label>
+                            <input type="text" name="category_name" id="category_name1" class="form-control">
+                        </div>
+                        <label>Select Parent Category</label><br />
+                        <select name="parent_category" id="parent_category3" class="form-control"></select>
+
+                        <br />
+
+                        <div>
+                            <label>Enter Category Name</label>
+                            <input type="text" name="category_name" id="category_name1" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="UpdateCat">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For View Product Details -->
+<div class="modal fade" id="exampleModalCenter11" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="product_details">
+                <div>
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Name</td>
+                            <td class="name"></td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td class="discount"></td>
+                        </tr>
+                        <tr>
+                            <td>Ranking</td>
+                            <td class="ranking"></td>
+                        </tr>
+                        <tr>
+                            <td>Total Quantity</td>
+                            <td class="tqty"></td>
+                        </tr>
+                        <tr>
+                            <td>Available Quantity</td>
+                            <td class="qty"></td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td class="desc"></td>
+                        </tr>
+                    </table>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal For Images -->
+<div class="modal fade" id="exampleModalCenter111" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="product_details">
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Model For Product Update*@
+<div class="modal fade" id="exampleModalCenterUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:white;">
+                    <div class="card-body" style="padding-bottom:0px">
+                        <form id="ProductData">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Product Name</label>
+                                        <input type="text" class="form-control name" name="Name" id="Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Price</label>
+                                        <input type="number" class="form-control price" name="Price" id="Price">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Quantity</label>
+                                        <input type="number" name="quantity" class="form-control qty" id="Quantity">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Discount</label>
+                                        <input type="text" class="form-control disc" name="discount" id="Discount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="selectdiv">
+                                            <label>
+                                                <select id="myTree" name="CATEGORY_ID"></select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating" style="width: 420px;">* Please Enter a Little Description about your Product</label>
+                                        <textarea style="width: 420px;" name="message" rows="3" cols="30" class="desc" id="Discription"></textarea>
+                                        <input type="hidden" name="id" id="pid" value="" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updatepro">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="width:1100px;">
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12" style="background-color:white;padding:5%">
+
+
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary" style="background-color:#4caf50">
+
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">Manage Categories</span>
+                            <button class="btn btn-primary pull-right add" data-toggle="modal" data-target="#exampleModalCenter">New +</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <table class="table" id="Main_Cat"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var idforUpdate = "";
+        fill_Main_Category();
+        fill_treeview();
+        fill_parent_category();
+        $('table').on('click', '.ViewProducts', function () {
+            var cur = $(this).closest('tr');
+            var id = cur.find('td:eq(0)').html();
+            var name = cur.find('td:eq(1)').html();
+            ViewProductDetails(id, name);
+        });
+        function fill_Main_Category() {
+            $output = "<thead><tr><th>ID</th><th>Name</th><th>Upload Image</th><th>Update</th><th>Delete</th><th>View Sub_Category</th></tr></thead>";
+            $.ajax({
+                url: "http://localhost:55572/api/Home//ViewProducts",
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $.each(data, function (key, item) {
+                        $output += "<tr><td>" + item.ProductId + "</td><td>" + item.Name + "</td><td><button class='btn btn-primary btn-sm productImages'>Product Images</button></td><td class='td-actions text-right'></button><button type='button' rel='tooltip' class='btn btn-primary btn-link btn-sm edit' data-toggle='modal' data-target='#exampleModalCenterUp'><i class='material-icons'>edit</i></td><td></button><button class='btn btn-danger btn-link btn-sm del'><i class='material-icons'>close</i></td><td><button class='btn btn-danger btn-link btn-sm ViewProducts' data-toggle='modal' data-target='#exampleModalCenter11'>View Details</td></button></tr>";
+                    });
+                    $('#Main_Cat').html($output);
+                }
+            })
+        }
+        function fill_treeview() {
+            $.ajax({
+                url: "http://localhost:55572/api/Home/Categories",
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $output = "<option value='' selected disabled hidden>Select Product Category</option>";
+                    $.each(data, function (key, item) {
+                        $output += "<optgroup label='" + item.CategoryName + "'>";
+                        $.each(item.Children, function (key2, item2) {
+                            $output += "<option value='" + item2.CategoryId + "'>" + item2.CategoryName + "</option>";
+                        });
+                        $output += "</optgroup>";
+                    });
+
+                    console.log($output);
+                    $('#myTree').html($output);
+                    $('#myTree1').html($output);
+                }
+            })
+        }
+        function fill_parent_category() {
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:55572/api/Home/Categories',
+                success: function (data) {
+                    $output = '<option value="0">Parent Category</option>';
+                    $.each(data, function (key, item) {
+                        $output += "<option value=" + item.CategoryId + ">" + item.CategoryName + "</option>";
+                    });
+                    $('#parent_category').html($output);
+                    //$('#parent_category3').html($output);
+                }
+            });
+        }
+        function ViewProductDetails(FindID, name) {
+            $.ajax({
+                url: "http://localhost:55572/api/Home/ProductDetail?id=" + FindID,
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $('#productTitle').html(name);
+                    $('.price').html(data.Price);
+                    $('.name').html(data.Name);
+                    $('.qty').html(data.quantity);
+                    $('.tqty').html(data.availableQuantity);
+                    $('.desc').html(data.description);
+                    $('.discount').html(data.discount);
+                    $('.ranking').html(data.ranking);
+
+
+
+
+                }
+            })
+
+        }
+        $(document).on('click', '#savePro', function () {
+
+            var CATEGORY_ID = $('#myTree1').find(":selected").val();
+            alert(CATEGORY_ID);
+            var userId = $(".userId").val();
+            var Price = $(".price").val();
+            var Name = $(".name").val();
+            var discount = $(".disc").val();
+            var quantity = $(".qty").val();
+            var description = $(".desc").val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/AddProduct",
+                data: { CategoryId: CATEGORY_ID, SELLER_ID: userId, Name: Name, discount: discount, quantity: quantity, availableQuantity: quantity, ranking: 0, description: description, Price: Price },
+                success: function (response) {
+                    $(".modal-content").hide("slow", function () {
+                        showNotification('top', 'right', 'Data Has Been Added Successfully', 'success');
+                    });
+
+                }
+            });
+        });
+
+
+        $(document).on('click', '.edit', function () {
+            var cur = $(this).closest('tr');
+            idforUpdate = cur.find('td:eq(0)').html();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/FindProduct?id=" + idforUpdate,
+                success: function (data) {
+                    $("#Name").val(data.Name);
+                    $("#Price").val(data.Price);
+                    $("#Quantity").val(data.quantity);
+                    $("#Discription").val(data.description);
+                    $("#Discount").val(data.discount);
+                    $("#pid").val(data.ProductId);            
+                    $("#parent_category3").get(0).selectedIndex = data.CategoryId;
+                }
+            });
+        });
+
+
+
+        $(document).on('click', '#updatepro', function () {
+
+            var CATEGORY_ID = $('#myTree').find(":selected").val();
+            var Price = $("#Price").val();
+            var Name = $("#Name").val();
+            var discount = $(".disc").val();
+            var quantity = $("#Quantity").val();
+            var description = $("#Discription").val();
+            var ProductId = $("#pid").val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/UpdateProduct",
+                data: { ProductId:ProductId,CategoryId: CATEGORY_ID, Name: Name, discount: discount, quantity: quantity, availableQuantity: quantity, ranking: 0, description: description, Price: Price },
+                success: function (response) {
+                    $(".modal-content").hide("slow", function () {
+                        showNotification('top', 'right', 'Data Has Been Added Successfully', 'success');
+                    });
+
+                }
+            });
+        });
+        //$(document).on('click', '.edit', function () {
+        //    var cur = $(this).closest('tr');
+        //    idforUpdate= cur.find('td:eq(0)').html();
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "http://localhost:55572/api/Home/FindCat?id=" + idforUpdate,
+        //        success: function (data) {
+        //            $("#category_name1").val(data.CategoryName);
+        //            $("#parent_category3").get(0).selectedIndex = data.ParentCategoryId;
+        //        }
+        //    });
+        //});
+        //$(document).on('click', '#UpdateCat', function () {
+
+
+        //    var ParentID = $('#parent_category3').find(":selected").val();
+        //    var CatName = $('#category_name1').val();
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "http://localhost:55572/api/Home/UpdateCat?CategoryName="+CatName+"&ParentCategoryId="+ParentID+"&id="+idforUpdate,
+        //        success: function (response) {
+        //            alert(response);
+        //        }
+        //    });
+        //});
+
+    });
+</script>
+
+<script>
+    $(document).on('click', '.caret', function () {
+
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+    });
+</script>
+<script>
+        $(document).ready(function () {
+            $('table').on('click', '.del', function () {
+                var cur = $(this).closest('tr');
+                var id = cur.find('td:eq(0)').html();
+                alert(id);
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://localhost:55572/api/Home/DeleteProduct?id=" + id,
+                    success: function (response) {
+                        alert(response);
+                        fill_Main_Category();
+                    }
+                });
+            });
+        });
+    </script>
+
+<script>
+    $(document).on('click', '.productImages', function () {
+        var cur = $(this).closest('tr');
+        var id = cur.find('td:eq(0)').html();
+        document.location = 'ProductImages?id=' + id;
+    });
+
+</script>
+<script>
+    function showNotification(from, align, Message, type) {
+
+        $.notify({
+            icon: "add_alert",
+            message: Message
+
+        }, {
+                type: type,
+                timer: 4000,
+                placement: {
+                    from: from,
+                    align: align
+                }
+            });
+    }
+</script>

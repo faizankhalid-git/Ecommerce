@@ -1,0 +1,299 @@
+﻿
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<!-- Modal To View Category-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" style="width:100%" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal For Add Category -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:white;padding:5%">
+                    <form method="post" id="treeview_form">
+
+                        <label>Select Parent Category</label><br />
+                        <select name="parent_category" id="parent_category" class="form-control"></select>
+
+                        <br />
+
+                        <div class="form-group">
+                            <label>Enter Category Name</label>
+                            <input type="text" name="category_name" id="category_name" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveCat">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:white;padding:5%">
+                    <form method="post" id="treeview_form">
+
+                        <label>Select Parent Category</label><br />
+                        <select name="parent_category" id="parent_category3" class="form-control"></select>
+
+                        <br />
+
+                        <div>
+                            <label>Enter Category Name</label>
+                            <input type="text" name="category_name" id="category_name1" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="UpdateCat">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container" style="width:1100px;">
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12" style="background-color:white;padding:5%">
+
+
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary" style="background-color:#4caf50">
+
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">Manage Categories</span>
+                            <button class="btn btn-primary pull-right add" data-toggle="modal" data-target="#exampleModalCenter">New +</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <table class="table" id="Main_Cat"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var idforUpdate = "";
+        fill_Main_Category();
+        fill_parent_category();
+        $('table').on('click', '.ViewSubCat', function () {
+            var cur = $(this).closest('tr');
+            var id = cur.find('td:eq(0)').html();
+            var name = cur.find('td:eq(1)').html();
+            View_All_Cat(id, name);
+        });
+        function fill_Main_Category() {
+            $output = "<thead><tr><th>ID</th><th>Name</th><th>Update</th><th>Delete</th><th>View Sub_Category</th></tr></thead>";
+            $.ajax({
+                url: "http://localhost:55572/api/Home/Categories",
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $.each(data, function (key, item) {
+                        $output += "<tr><td>" + item.CategoryId + "</td><td>" + item.CategoryName + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' class='btn btn-primary btn-link btn-sm edit' data-toggle='modal' data-target='#exampleModalCenter1'><i class='material-icons'>edit</i></td><td><button class='btn btn-danger btn-link btn-sm del'><i class='material-icons'>close</i></td><td><button class='btn btn-danger btn-link btn-sm ViewSubCat' data-toggle='modal' data-target='#exampleModal'>View Sub_Categories</td></tr>";
+                    });
+                    $('#Main_Cat').html($output);
+                }
+            })
+        }
+        function fill_treeview() {
+            $.ajax({
+                url: "http://localhost:55572/api/Home/Categories",
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $output = "<ul id='myUL'>";
+                    $.each(data, function (key, item) {
+                        $output += "<li class='f'><span class='caret'>" + item.CategoryName + "</span>";
+                        $output += "<ul class='nested'>";
+                        $.each(item.Children, function (key2, item2) {
+                            $output += "<li>" + item2.CategoryName + "</li>";
+                        });
+                        $output += "</ul></li>";
+                    });
+                    $output += "</ul>";
+                    console.log($output);
+                    //$('#treeview').html($output);
+                    //$('#content').html($output);
+                }
+            })
+        }
+        function fill_parent_category() {
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:55572/api/Home/Categories',
+                success: function (data) {
+                    $output = '<option value="0">Parent Category</option>';
+                    $.each(data, function (key, item) {
+                        $output += "<option value=" + item.CategoryId + ">" + item.CategoryName + "</option>";
+                    });
+                    $('#parent_category').html($output);
+                    $('#parent_category3').html($output);
+                }
+            });
+        }
+        function View_All_Cat(FindID, name) {
+            $.ajax({
+                url: "http://localhost:55572/api/Home/FindCategory?id=" + FindID,
+                dataType: "json",
+                method: "POST",
+                success: function (data) {
+                    $output = "<ul id='myUL'>";
+                    $.each(data, function (key, item) {
+                        $output += "<li class='f'><span class='caret'>" + item.CategoryName + "</span>";
+                        $output += "<ul class='nested'>";
+                        $.each(item.Children, function (key2, item2) {
+                            $output += "<li>" + item2.CategoryName + "</li>";
+                        });
+                        $output += "</ul></li>";
+                    });
+                    $output += "</ul>";
+                    //$('#treeview').html($output);
+                    $('#content').html($output);
+                    $('#exampleModalLabel').html(name);
+                }
+            })
+
+        }
+        $(document).on('click', '#saveCat', function () {
+            var ParentID = $('#parent_category').find(":selected").val();
+            var CatName = $('#category_name').val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/AddCat",
+                data: { CategoryName: CatName, ParentCategoryId: ParentID },
+                success: function (response) {
+                    alert(response);
+                    fill_Main_Category();
+                }
+            });
+        });
+        $(document).on('click', '.edit', function () {
+            var cur = $(this).closest('tr');
+            idforUpdate= cur.find('td:eq(0)').html();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/FindCat?id=" + idforUpdate,
+                success: function (data) {
+                    $("#category_name1").val(data.CategoryName);
+                    $("#parent_category3").get(0).selectedIndex = data.ParentCategoryId;   
+                    fill_Main_Category();
+                }
+            });
+        });
+        $(document).on('click', '#UpdateCat', function () {
+ 
+
+            var ParentID = $('#parent_category3').find(":selected").val();
+            var CatName = $('#category_name1').val();
+ 
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/UpdateCat?CategoryName="+CatName+"&ParentCategoryId="+ParentID+"&id="+idforUpdate,
+                success: function (response) {
+                    alert(response);
+                    fill_Main_Category();
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    $(document).on('click', '.caret', function () {
+
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('table').on('click', '.del', function () {
+            var cur = $(this).closest('tr');
+            var id = cur.find('td:eq(0)').html();
+            $.ajax({
+                type: "DELETE",
+                url: "http://localhost:55572/api/Home/DeleteCat?id=" + id,
+                success: function (response) {
+                    alert(response);
+                    fill_Main_Category();                   
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('table').on('click', '.ViewSubCat', function () {
+            var cur = $(this).closest('tr');
+            var id = cur.find('td:eq(0)').html();
+            View_All_Cat(id);
+        });
+    });
+</script>

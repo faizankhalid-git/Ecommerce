@@ -1,0 +1,403 @@
+﻿
+@{
+    ViewBag.Title = "CheckOut";
+
+}
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<!--Body Content-->
+<div id="page-content" style="width:1200px">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper"><h1 class="page-width">Checkout</h1></div>
+        </div>
+    </div>
+    <!--End Page Title-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                <div class="customer-box returning-customer">
+                    <h3><i class="icon anm anm-user-al"></i> Returning customer? <a href="#" id="customer" class="text-white text-decoration-underline" data-toggle="collapse">Click here to login</a></h3>
+                    <div id="customer-login" class="collapse customer-content">
+                        <div class="customer-info">
+                            <p class="coupon-text">If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please proceed to the Billing &amp; Shipping section.</p>
+                            <form>
+                                <div class="row">
+                                    <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                        <label for="exampleInputEmail1">Email address <span class="required-f">*</span></label>
+                                        <input type="email" class="no-margin" id="exampleInputEmail1">
+                                    </div>
+                                    <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                        <label for="exampleInputPassword1">Password <span class="required-f">*</span></label>
+                                        <input type="password" id="exampleInputPassword1">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-check width-100 margin-20px-bottom">
+                                            <a href="#" class="float-right">Forgot your password?</a>
+                                        </div>
+                                        <input id="login" class="btn btn-primary mt-3" value="SUBMIT">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                <div class="customer-box customer-coupon">
+                    <h3 class="font-15 xs-font-13"><i class="icon anm anm-gift-l"></i> Have a coupon? <a href="#have-coupon" class="text-white text-decoration-underline" data-toggle="collapse">Click here to enter your code</a></h3>
+                    <div id="have-coupon" class="collapse coupon-checkout-content">
+                        <div class="discount-coupon">
+                            <div id="coupon" class="coupon-dec tab-pane active">
+                                <p class="margin-10px-bottom">Enter your coupon code if you have one.</p>
+                                <label class="required get" for="coupon-code"><span class="required-f">*</span> Coupon</label>
+                                <input id="coupon-code" required="" type="text" class="mb-3">
+                                <button class="coupon-btn btn" type="submit">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row billing-fields">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 sm-margin-30px-bottom">
+                <div class="create-ac-content bg-light-gray padding-20px-all">
+                    <form id="customerdata">
+                        <fieldset>
+                            <h2 class="login-title mb-3">Billing details</h2>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                    <label for="input-firstname">Name <span class="required-f">*</span></label>
+                                    <input name="name" value="" id="name" type="text">
+                                </div>
+                                <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                    <label for="input-lastname">Phone<span class="required-f">*</span></label>
+                                    <input name="phone" value="" id="phone" type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                    <label for="input-email">Province<span class="required-f">*</span></label>
+                                    <input name="province" value="" id="province" type="email">
+                                </div>
+                                <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                    <label for="input-telephone">City<span class="required-f">*</span></label>
+                                    <input name="city" value="" id="city" type="tel">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+
+                            <div class="row">
+                                @*<div class="form-group col-md-6 col-lg-6 col-xl-6">
+                                        <label for="input-address-2">Area <span class="required-f">*</span></label>
+                                        <input name="area" value="" id="input-address-2" type="text">
+                                    </div>*@
+                                <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                    <label for="input-city">Address <span class="required-f">*</span></label>
+                                    <input name="address" value="" id="address" type="text">
+                                    <input type="hidden" name="bill" value="" id="bill" />
+                                    <input type="hidden" name="status" value="NotPaid" id="status" />
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                        <fieldset>
+                            <div class="row">
+                                <div class="form-group col-md-12 col-lg-12 col-xl-12">
+                                    <label for="input-company">Order Notes <span class="required-f">*</span></label>
+                                    <textarea class="form-control resize-both" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="your-order-payment">
+                    <div class="your-order">
+                        <h2 class="order-title mb-4">Your Order</h2>
+                        <div class="table-responsive-sm order-table">
+                            <form id="chkdata">
+                                <input type="hidden" name="lastid" id="lastidd" value="1" />
+                                <table class="bg-white table table-bordered table-hover text-center" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabledata"></tbody>
+                                    <tfoot class="font-weight-600;" style="font-weight:bold">
+                                        <tr>
+                                            <td class="text-right">Total</td>
+                                            <td id="total"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="your-payment">
+                        <h2 class="payment-title mb-3">payment method</h2>
+                        <div class="payment-method">
+                            <div class="payment-accordion">
+                                <div id="accordion" class="payment-section">
+                                    <div class="card mb-2">
+                                        <div class="card-header">
+                                            <a class="card-link" data-toggle="collapse" href="#collapseOne">Direct Bank Transfer </a>
+                                        </div>
+                                        <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p class="no-margin font-15">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won't be shipped until the funds have cleared in our account.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-2">
+                                        <div class="card-header">
+                                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">Cheque Payment</a>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p class="no-margin font-15">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card margin-15px-bottom border-radius-none">
+                                        <div class="card-header">
+                                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree"> PayPal </a>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p class="no-margin font-15">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div>
+
+                                <h1>Select Your Payment Options</h1>
+
+                                <div style="border:1px solid;padding:20px;border-color:#d3d3d3">
+                                    <label class="container">
+
+                                        <img src="~/Content/WebsiteContent/images.png" style="height:40px;width:40px" />Cash On Delivery
+                                        <input type="radio" checked="checked" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">
+                                        <img src="~/Content/Paypal-Logo-Transparent-PNG.png" style="height:40px;width:40px" />
+                                        Payment Through Paypal
+                                        <input type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>*@
+                            <div class="order-button-payment">
+                             
+                                <button class="btn" value="Place order" id="paypal-button" style="background-color:black">Place order</button>
+                                <button class="btn" value="Place order" id="placeOrder" style="background-color:black;width:192px;height:87px">Place order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--End Body Content-->
+<script src="~/Content/js/vendor/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:55572/api/Home/ViewCart",
+            success: function (data) {
+                var output = "";
+                var count = 0;
+                $.each(data, function (key, item) {
+                    output += "<tr><td><input name='productName' value=" + item.Name + " /></td><td><input name='price' value=" + item.Price + " /></td></tr>";
+                    count += item.Price;
+                });
+                $("#tabledata").html(output);
+                $("#total").text(count);
+                $("#bill").val(count);
+            }
+        });
+    })
+
+
+    var session = "";
+    $("#paypal-button").click(function (e) {
+        e.preventDefault();
+        if (session == "") {
+            swal({
+                title: "Login",
+                text: "Youe Need To Login First...!!!",
+                buttons: true,
+                dangerMode: false,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        var v = document.getElementById("customer-login");
+                        v.classList.add("show");
+                    }
+                });
+        }
+        else {
+            var radio = document.getElementsByName('radio');
+            if (radio[0].checked) {
+                alert("Heyyy");
+            }
+            var dataa = $("#chkdata").serialize();
+            var name = $("#name").val();
+            var phone = $("#phone").val();
+            var province = $("#province").val();
+            var city = $("#city").val();
+            var address = $("#address").val();
+            var bill = $("#bill").val();
+            var status = $("#status").val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/AddCustomers?name=" + name + "&phone=" + phone + "&province=" + province + "&city=" + city + "&address=" + address + "&bill=" + bill + "&status=" + status,
+                success: function (data) {
+                    var a = data;
+                    $("#lastidd").val(a);
+                    $.ajax({
+                        type: "POST",
+                        data: { formdata: dataa },
+                        url: "http://localhost:55572/api/Home/Orders",
+                        success: function (data) {
+                            swal("Good job!", "Data Added Successfully!", "success");
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+
+
+    $("#login").click(function (e) {
+        e.preventDefault();
+        var email = $("#exampleInputEmail1").val();
+        var password = $("#exampleInputPassword1").val();
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:55572/api/Home/UserLogin?email=" + email + "&password=" + password,
+            success: function (response) {
+                if (response != "") {
+                    alert(response);
+                    session = response;
+                    $("#customer-login").removeClass("show");
+                }
+            }
+        });
+    });
+
+
+
+
+    $("#placeOrder").click(function (e) {
+        e.preventDefault();
+        if (session == "") {
+            swal({
+                title: "Login",
+                text: "Youe Need To Login First...!!!",
+                buttons: true,
+                dangerMode: false,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        var v = document.getElementById("customer-login");
+                        v.classList.add("show");
+                    }
+                });
+        }
+        else {
+
+            var dataa = $("#chkdata").serialize();
+            var name = $("#name").val();
+            var phone = $("#phone").val();
+            var province = $("#province").val();
+            var city = $("#city").val();
+            var address = $("#address").val();
+            var bill = $("#bill").val();
+            var status = $("#status").val();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:55572/api/Home/AddCustomers?name=" + name + "&phone=" + phone + "&province=" + province + "&city=" + city + "&address=" + address + "&bill=" + bill + "&status=" + status,
+                success: function (data) {
+                    var a = data;
+                    $("#lastidd").val(a);
+                    $.ajax({
+                        type: "POST",
+                        data: { formdata: dataa },
+                        url: "http://localhost:55572/api/Home/Orders",
+                        success: function (data) {
+                            swal("Good job!", "Data Added Successfully!", "success");
+                        }
+                    });
+                }
+            });
+        }
+    });
+</script>
+
+
+<script>
+    paypal.Button.render({
+
+        env: 'sandbox', // sandbox | production
+
+        // PayPal Client IDs - replace with your own
+        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+        client: {
+            sandbox: 'Aawhi1am8vhKQKrVN-guF4CqLkFbWrSKNOGNOnlEI8J3Ftl-gU_mvNvD3zYbszEovqnK4e7vj9tM4p9G',
+            production: 'EKw8Lt_gkInEQWdbqaeONExh217lM2E98vylXuOxmkoEj3q0FtPh60niJD22cUTABJlZbsHy5cg1e_fQ'
+        },
+
+        // Show the buyer a 'Pay Now' button in the checkout flow
+        commit: true,
+
+        // payment() is called when the button is clicked
+        payment: function (data, actions) {
+            // Make a call to the REST api to create the payment
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: $("#bill").val(), currency: 'USD' }
+                        }
+                    ]
+                }
+            });
+        },
+
+        // onAuthorize() is called when the buyer approves the payment
+        onAuthorize: function (data, actions) {
+            // Make a call to the REST api to execute the payment
+            return actions.payment.execute().then(function () {
+                window.alert('Payment Complete!');
+            });
+        }
+    }, '#paypal-button');
+
+</script>
+
+
